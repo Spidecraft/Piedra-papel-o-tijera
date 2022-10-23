@@ -12,6 +12,8 @@ const botonPapel = document.getElementById("Papel")
 const botonTijera = document.getElementById("Tijera")
 const divJugar = document.getElementById("juego")
 const botonIniciar = document.getElementById("iniciar")
+const botonPartida = document.getElementById("partida")
+const botonLimpiarVictorias = document.getElementById("lVictorias")
 
 const spanVictoriasJugador = document.getElementById("victorias-jugador")
 const spanVictoriasEnemigo = document.getElementById("victorias-enemigo")
@@ -35,15 +37,19 @@ let tú = new opciones("./assets/piedra.png", "./assets/papel.png", "./assets/ti
 
 let contrincante = new opciones("./assets/piedra2.png", "./assets/papel-2.png", "./assets/tijera2.png")
 classe.push(tú, contrincante)
-function carga() {    
+function carga() { 
+    botonPartida.style.display = "none"
+    botonLimpiarVictorias.style.display = "none"
 
     divJugar.style.display = "none"
 
-    //botonPiedra.addEventListener("click", atacarConPiedra)
-    //botonPapel.addEventListener("click", atacarConPapel)
-    //botonTijera.addEventListener("click", atacarConTijera)
+    botonPiedra.addEventListener("click", atacarConPiedra)
+    botonPapel.addEventListener("click", atacarConPapel)
+    botonTijera.addEventListener("click", atacarConTijera)
 
     botonIniciar.addEventListener("click", mostrarContenido)
+    botonLimpiarVictorias.addEventListener("click", desVictorias)
+    botonPartida.addEventListener("click", otraPartida)
 
 }
 function mostrarContenido() {
@@ -78,6 +84,12 @@ function atacarConPiedra() {
     jugador = "Piedra"
     opcion = opciones.Piedra
     ataqueEnemigo(pc)
+}
+function desVictorias() {
+    triunfos = 0
+    perdidas = 0
+    spanVictoriasJugador.innerHTML = triunfos
+    spanVictoriasEnemigo.innerHTML = perdidas
 }
 function jugar() {
     if((jugador == "Tijera" && resultado == "Papel") || (jugador == "Papel" && resultado == "Piedra") || 
@@ -119,6 +131,27 @@ function result() {
     contenedorImagenEnemigo.innerHTML = opcionDeEnemigo
     sectionMensaje.innerHTML = resulta
     console.log(opcionDeEnemigo)
+    para()
+}
+function para() {
+    botonPiedra.disabled = true
+    botonPapel.disabled = true
+    botonTijera.disabled = true 
+    botonPartida.style.display = "block"
+    botonLimpiarVictorias.style.display = "block"
+}
+function otraPartida() {
+    botonPiedra.disabled = false
+    botonPapel.disabled = false
+    botonTijera.disabled = false 
+    botonPartida.style.display = "none"
+    botonLimpiarVictorias.style.display = "none"
+    opcionDeJugador = `<img class="mano" src="./assets/papel.png">`
+    opcionDeEnemigo = `<img class="mano" src="./assets/papel-2.png">`
+    contenedorImagen.innerHTML = opcionDeJugador
+    contenedorImagenEnemigo.innerHTML = opcionDeEnemigo
+    resulta = "Suerte"
+    sectionMensaje.innerHTML = resulta
 }
 //alert("Ganastes " + triunfos + " veces. Perdistes " + perdidas + " veces")
 window.addEventListener("load", carga)
